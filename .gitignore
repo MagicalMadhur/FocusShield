@@ -1,0 +1,27 @@
+# Binaries & Temporary Build Artifacts
+FocusShield_*.exe
+*.res
+*.o
+*.obj
+*.tmp
+*.bak
+
+# Local Hosts Backups
+backups/
+*.focus_shield_backup
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS & Log Files
+Thumbs.db
+Desktop.ini
+*.log

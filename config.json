@@ -1,0 +1,123 @@
+{
+  "shield_active": false,
+  "custom_domains": [
+    {
+      "domain": "youtube.com",
+      "enabled": true,
+      "created_at": 0
+    },
+    {
+      "domain": "instagram.com",
+      "enabled": true,
+      "created_at": 0
+    },
+    {
+      "domain": "x.com",
+      "enabled": true,
+      "created_at": 0
+    }
+  ],
+  "presets": {
+    "video_streaming": {
+      "id": "video_streaming",
+      "name": "Video & Streaming",
+      "description": "YouTube, Netflix, Twitch & streaming media",
+      "icon": "tv",
+      "enabled": false,
+      "domains": [
+        "youtube.com",
+        "netflix.com",
+        "twitch.tv",
+        "disneyplus.com",
+        "hulu.com",
+        "primevideo.com",
+        "vimeo.com"
+      ]
+    },
+    "social_media": {
+      "id": "social_media",
+      "name": "Social Networks",
+      "description": "Instagram, Twitter/X, TikTok, Facebook",
+      "icon": "share",
+      "enabled": false,
+      "domains": [
+        "instagram.com",
+        "twitter.com",
+        "x.com",
+        "tiktok.com",
+        "facebook.com",
+        "threads.net",
+        "snapchat.com"
+      ]
+    },
+    "doomscrolling": {
+      "id": "doomscrolling",
+      "name": "Doomscrolling & Feeds",
+      "description": "Reddit, 9GAG, Imgur, Pinterest, Quora",
+      "icon": "compass",
+      "enabled": false,
+      "domains": [
+        "reddit.com",
+        "9gag.com",
+        "imgur.com",
+        "pinterest.com",
+        "buzzfeed.com",
+        "quora.com"
+      ]
+    },
+    "gaming": {
+      "id": "gaming",
+      "name": "Gaming & Communities",
+      "description": "Steam Community, Roblox, Discord Web",
+      "icon": "gamepad",
+      "enabled": false,
+      "domains": [
+        "steamcommunity.com",
+        "roblox.com",
+        "discord.com",
+        "epicgames.com"
+      ]
+    },
+    "adult_nsfw": {
+      "id": "adult_nsfw",
+      "name": "Adult & NSFW",
+      "description": "Major adult sites, webcam portals & CDNs",
+      "icon": "shield",
+      "enabled": false,
+      "domains": [
+        "pornhub.com",
+        "xvideos.com",
+        "xnxx.com",
+        "redtube.com",
+        "youporn.com",
+        "onlyfans.com",
+        "chaturbate.com"
+      ]
+    },
+    "news_tabloids": {
+      "id": "news_tabloids",
+      "name": "Tabloids & Clickbait",
+      "description": "DailyMail, TMZ, BuzzFeed, NYPost",
+      "icon": "newspaper",
+      "enabled": false,
+      "domains": [
+        "dailymail.co.uk",
+        "tmz.com",
+        "buzzfeed.com",
+        "nypost.com"
+      ]
+    }
+  },
+  "focus_session": {
+    "active": false,
+    "start_time": 0,
+    "duration_seconds": 0,
+    "end_time": 0,
+    "strict_mode": false
+  },
+  "stats": {
+    "total_sessions": 0,
+    "total_focus_minutes": 0,
+    "last_sync_time": 0
+  }
+}

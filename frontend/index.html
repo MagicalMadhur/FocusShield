@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusShield — Network-Level Website Blocker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- Glowing Background Orbs -->
+  <div class="bg-blur orb-1"></div>
+  <div class="bg-blur orb-2"></div>
+  <div class="bg-blur orb-3"></div>
+
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="shield-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4" class="shield-check"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>FocusShield</h1>
+          <span class="sub-label">Windows Network-Level Blocker</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Status Pill -->
+        <div id="os-status-pill" class="status-pill standby">
+          <span class="pulsing-dot"></span>
+          <span id="os-status-text">SHIELD STANDBY</span>
+        </div>
+
+        <!-- Privilege Badge -->
+        <div id="admin-badge" class="badge admin-ok">
+          <span class="badge-icon">🛡️</span>
+          <span id="admin-text">Checking Privileges...</span>
+        </div>
+
+        <!-- Elevate Action Button (Visible if standard user) -->
+        <button id="btn-elevate" class="btn btn-sm btn-ghost hidden" title="Relaunch as Administrator for instant 0-click sync">
+          <span>⚡ Elevate to Admin</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="dashboard-grid">
+
+      <!-- LEFT COLUMN: Master Control & Focus Session -->
+      <section class="col-left">
+
+        <!-- Master Switch Hero Card -->
+        <div class="glass-card master-hero-card">
+          <div class="card-glow-overlay"></div>
+          <div class="hero-header">
+            <div class="hero-info">
+              <span class="eyebrow">SYSTEM SHIELD</span>
+              <h2 id="master-title">Network Blocker: Active</h2>
+              <p id="master-subtitle" class="text-muted">Direct OS-level host resolution drop. All browsers & apps blocked.</p>
+            </div>
+            <!-- Master Toggle Switch -->
+            <label class="master-switch-container">
+              <input type="checkbox" id="master-shield-toggle">
+              <span class="master-switch-slider">
+                <span class="switch-inner-glow"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <span class="metric-val" id="metric-blocked-domains">0</span>
+              <span class="metric-label">Target Sites</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val text-accent" id="metric-active-hosts">0</span>
+              <span class="metric-label">Locked Hostnames</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val text-emerald" id="metric-drop-latency">0 ms</span>
+              <span class="metric-label">Drop Latency</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Focus Lockdown Timer (Pomodoro / Session) -->
+        <div class="glass-card timer-card">
+          <div class="card-header">
+            <div class="header-title-group">
+              <div class="icon-wrap icon-timer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div>
+                <h3>Focus Lockdown Timer</h3>
+                <span class="card-subtitle">Lock distraction shield for uninterrupted flow</span>
+              </div>
+            </div>
+            <span id="timer-status-badge" class="badge badge-subtle">IDLE</span>
+          </div>
+
+          <!-- Radial Progress Display -->
+          <div class="timer-display-area">
+            <div class="radial-timer-wrap">
+              <svg class="radial-svg" viewBox="0 0 200 200">
+                <circle class="radial-bg" cx="100" cy="100" r="88"/>
+                <circle class="radial-progress" id="timer-progress-ring" cx="100" cy="100" r="88"/>
+              </svg>
+              <div class="timer-time-content">
+                <div class="time-readout" id="timer-readout">25:00</div>
+                <div class="time-subtext" id="timer-subtext">SELECT DURATION</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Duration Presets -->
+          <div class="timer-presets" id="timer-presets-group">
+            <button class="chip-preset active" data-mins="25">25m Pomodoro</button>
+            <button class="chip-preset" data-mins="45">45m Deep Work</button>
+            <button class="chip-preset" data-mins="90">90m Flow</button>
+            <button class="chip-preset" data-mins="180">3 Hours</button>
+          </div>
+
+          <!-- Strict Mode Toggle -->
+          <div class="strict-mode-row">
+            <div class="strict-info">
+              <div class="strict-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lock-icon">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>Strict Mode (Anti-Cheat)</span>
+              </div>
+              <p class="strict-desc">Unblocking is strictly disabled until the session ends.</p>
+            </div>
+            <label class="toggle-sm">
+              <input type="checkbox" id="strict-mode-toggle" checked>
+              <span class="toggle-sm-slider"></span>
+            </label>
+          </div>
+
+          <!-- Timer Action Buttons -->
+          <div class="timer-actions">
+            <button id="btn-start-timer" class="btn btn-primary btn-block">
+              <span>▶ Start Focus Session</span>
+            </button>
+            <button id="btn-stop-timer" class="btn btn-danger btn-block hidden">
+              <span>✕ End Session Early</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-Time Proof & Diagnostic Sandbox -->
+        <div class="glass-card diagnostic-card">
+          <div class="card-header">
+            <div class="header-title-group">
+              <div class="icon-wrap icon-pulse">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <div>
+                <h3>Live Network Verifier</h3>
+                <span class="card-subtitle">Verify OS-level socket refusal in real-time</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="diag-input-row">
+            <input type="text" id="diag-input" placeholder="e.g. youtube.com or x.com" value="youtube.com">
+            <button id="btn-run-diag" class="btn btn-secondary">
+              <span>Test Socket</span>
+            </button>
+          </div>
+
+          <!-- Live Result Box -->
+          <div id="diag-result-box" class="diag-result-box empty">
+            <div class="diag-placeholder">
+              <span>Click "Test Socket" to verify that traffic to this site is dropped at 0ms.</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Distraction Killer, Blocklists & Presets -->
+      <section class="col-right">
+
+        <!-- Add Custom Website Card -->
+        <div class="glass-card add-domain-card">
+          <div class="card-header">
+            <div class="header-title-group">
+              <div class="icon-wrap icon-add">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+              </div>
+              <div>
+                <h3>Add Website to Block</h3>
+                <span class="card-subtitle">Blocks across all browsers, background apps & embedded iframes</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="add-domain-form" class="add-form">
+            <div class="input-with-button">
+              <div class="input-prefix">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+              </div>
+              <input type="text" id="domain-input" placeholder="Enter website name or URL (e.g. youtube.com, instagram, x.com)..." autocomplete="off" required>
+              <button type="submit" id="btn-add-domain" class="btn btn-primary">
+                <span>+ Block Site</span>
+              </button>
+            </div>
+
+            <!-- Intelligent Domain Expansion Preview -->
+            <div id="domain-preview-banner" class="preview-banner hidden">
+              <div class="preview-header">
+                <span class="preview-badge">⚡ Subdomain & CDN Expansion</span>
+                <span id="preview-count" class="preview-count">0 endpoints</span>
+              </div>
+              <div id="preview-hosts-chips" class="preview-hosts-chips"></div>
+              <p class="preview-help">Neutralizes embedded video players, iframes, mobile endpoints, and CDN streams.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Curated Category Presets -->
+        <div class="glass-card presets-card">
+          <div class="card-header">
+            <div class="header-title-group">
+              <div class="icon-wrap icon-categories">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </div>
+              <div>
+                <h3>1-Click Category Presets</h3>
+                <span class="card-subtitle">Instant bundle shields for top distraction vectors</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="presets-grid" id="presets-grid">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+
+        <!-- Active Blocklist Manager -->
+        <div class="glass-card blocklist-card">
+          <div class="card-header">
+            <div class="header-title-group">
+              <div class="icon-wrap icon-list">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+              </div>
+              <div>
+                <h3>Target Sites Blocklist</h3>
+                <span class="card-subtitle">Sites currently mapped to 0.0.0.0 & ::1</span>
+              </div>
+            </div>
+            <div class="blocklist-search-wrap">
+              <input type="text" id="blocklist-search" placeholder="Filter sites...">
+            </div>
+          </div>
+
+          <!-- Domain Items List -->
+          <div class="domains-list-container" id="domains-list">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+
+        <!-- Browser DoH (Secure DNS) Guidance Notice -->
+        <div class="glass-card doh-guidance-card">
+          <div class="doh-content">
+            <div class="doh-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+            </div>
+            <div class="doh-text">
+              <h4>Airtight Network Shield Notice</h4>
+              <p>Modern Chrome & Edge have a feature called <em>Secure DNS (DoH)</em> which can bypass the OS DNS resolver. To guarantee 100% blockage, FocusShield can enforce the enterprise policy to disable DoH.</p>
+            </div>
+            <button id="btn-toggle-doh" class="btn btn-sm btn-outline">
+              <span id="doh-btn-text">Enforce Browser Shield</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>FocusShield Windows Network Blocker • Zero latency null route (0.0.0.0) • Distraction-free deep work</span>
+      <span id="sync-timestamp" class="text-muted">Last synced: Just now</span>
+    </footer>
+  </div>
+
+  <!-- Strict Mode Pledge Confirmation Modal -->
+  <div id="pledge-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-warning-icon">⚠️</div>
+        <h3>Mindful Pause: Strict Focus Active</h3>
+      </div>
+      <p class="modal-desc">
+        You activated Strict Mode to conquer distraction. Your brain is craving a quick dopamine fix.
+      </p>
+      <div class="pledge-box">
+        <span class="pledge-label">To proceed, carefully type this pledge:</span>
+        <blockquote id="pledge-target" class="pledge-quote">I choose long-term focus over short-term distraction</blockquote>
+      </div>
+      <input type="text" id="pledge-input" class="pledge-input" placeholder="Type the pledge above to confirm..." autocomplete="off">
+      <div class="modal-actions">
+        <button id="btn-pledge-cancel" class="btn btn-secondary">
+          <span>Stay Focused (Cancel)</span>
+        </button>
+        <button id="btn-pledge-confirm" class="btn btn-danger" disabled>
+          <span>Break Focus Session</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
