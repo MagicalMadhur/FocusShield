@@ -159,6 +159,12 @@ FocusShield/
 
 ---
 
+## 📚 Technical References & Benchmarks
+
+- [RFC 1035 — Domain Names: Implementation and Specification](https://datatracker.ietf.org/doc/html/rfc1035) — Standard specifications for OS host resolvers and DNS hierarchy.
+- [Windows OS Network Telemetry & Background Socket Overhead](https://www.thelifehacknexus.com/2026/10/windows-11-debloat-telemetry-elimination.html) — Technical telemetry analysis of OS background socket calls, DNS resolution behavior, and bloat reduction.
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
